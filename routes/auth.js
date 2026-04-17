@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { validateLoginInput } = require('../middleware/validation');
 
+// THIS is the line that was missing!
 const router = express.Router();
 
 /**
@@ -14,9 +15,16 @@ router.post('/login', validateLoginInput, async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1. Find user by email
-    const user = await User.findOne({ email: email.toLowerCase() });
+    // 1. Find user by email AND explicitly select the hidden password field
+    const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
+    
     if (!user) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    // EXTRA SAFETY CHECK: Ensure the password actually came back from the DB
+    if (!user.password) {
+      console.error('User found, but password field is missing in the database.');
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 

@@ -38,7 +38,7 @@ const UserSchema = new mongoose.Schema(
 );
 
 // Index for email lookups
-UserSchema.index({ email: 1 });
+// UserSchema.index({ email: 1 });
 
 // Pre-save middleware to hash password if modified
 UserSchema.pre('save', async function (next) {

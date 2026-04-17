@@ -4,8 +4,8 @@
   "description": "HR CRM Backend API",
   "main": "server.js",
   "scripts": {
-    "start": "NODE_ENV=production node server.js",
-    "dev": "NODE_ENV=development node server.js",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "dev": "cross-env NODE_ENV=development node server.js",
     "seed": "node seedUsers.js"
   },
   "keywords": [],
@@ -20,6 +20,7 @@
     "mongoose": "^9.4.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^3.0.1"
   },
   "engines": {
